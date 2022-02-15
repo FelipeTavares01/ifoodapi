@@ -1,7 +1,7 @@
 package com.ifoodapi.infrastructure.repository.specs;
 
 import com.ifoodapi.domain.entity.Pedido;
-import com.ifoodapi.domain.repository.filter.PedidoFilter;
+import com.ifoodapi.domain.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;

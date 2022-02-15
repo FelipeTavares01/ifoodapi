@@ -1,4 +1,4 @@
-package com.ifoodapi.domain.repository.filter;
+package com.ifoodapi.domain.filter;
 
 import lombok.Getter;
 import lombok.Setter;
