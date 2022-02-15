@@ -24,7 +24,5 @@ public class PageJsonSerializer extends JsonSerializer<Page<?>> {
         jsonGenerator.writeNumberField("currentPage", page.getNumber());
 
         jsonGenerator.writeEndObject();
-
-
     }
 }

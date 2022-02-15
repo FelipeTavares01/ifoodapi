@@ -6,6 +6,7 @@ import com.ifoodapi.api.assembler.PedidoResumoModelAssembler;
 import com.ifoodapi.api.model.input.PedidoInput;
 import com.ifoodapi.api.model.output.PedidoOutput;
 import com.ifoodapi.api.model.output.PedidoResumoOutput;
+import com.ifoodapi.core.translate.PageableTranslator;
 import com.ifoodapi.domain.entity.Pedido;
 import com.ifoodapi.domain.repository.filter.PedidoFilter;
 import com.ifoodapi.domain.service.EmissaoPedidoService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -44,6 +46,8 @@ public class PedidoController {
 
     @GetMapping
     public ResponseEntity<Page<PedidoResumoOutput>> findAllByFilter(PedidoFilter pedidoFilter, @PageableDefault(size = 5) Pageable pageable) {
+
+        pageable = pageableTranslate(pageable);
 
         Page<Pedido> pedidosPage = pedidoService.findAllByFilter(pedidoFilter, pageable);
 
@@ -88,4 +92,17 @@ public class PedidoController {
         pedidoService.cancel(pedidoCodigo);
     }
 
+    private Pageable pageableTranslate(Pageable pageable) {
+        var sortMapping = Map.of(
+                "codigo", "codigo",
+                "subtotal", "subtotal",
+                "taxaFrete", "taxaFrete",
+                "valorTotal", "valorTotal",
+                "status", "status",
+                "dataCriacao", "dataCriacao",
+                "nomeRestaurante", "restaurante.nome",
+                "nomeCliente", "cliente.nome"
+        );
+        return PageableTranslator.translate(pageable, sortMapping);
+    }
 }
