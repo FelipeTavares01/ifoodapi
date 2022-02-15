@@ -12,6 +12,10 @@ import com.ifoodapi.domain.service.EmissaoPedidoService;
 import com.ifoodapi.domain.service.PedidoService;
 import com.ifoodapi.infrastructure.repository.specs.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,12 +43,15 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public ResponseEntity<List<PedidoResumoOutput>> findAllByFilter(PedidoFilter pedidoFilter) {
-        List<Pedido> pedidosFiltrado = pedidoService.findAllByFilter(pedidoFilter);
+    public ResponseEntity<Page<PedidoResumoOutput>> findAllByFilter(PedidoFilter pedidoFilter, @PageableDefault(size = 5) Pageable pageable) {
 
-        List<PedidoResumoOutput> pedidosResumoOutputs = pedidoResumoModelAssembler.toCollectionModel(pedidosFiltrado);
+        Page<Pedido> pedidosPage = pedidoService.findAllByFilter(pedidoFilter, pageable);
 
-        return ResponseEntity.ok(pedidosResumoOutputs);
+        List<PedidoResumoOutput> pedidosResumoOutputs = pedidoResumoModelAssembler.toCollectionModel(pedidosPage.getContent());
+
+        Page<PedidoResumoOutput> pedidoResumoOutputPage = new PageImpl<>(pedidosResumoOutputs, pageable, pedidosPage.getTotalElements());
+
+        return ResponseEntity.ok(pedidoResumoOutputPage);
     }
 
     @GetMapping("/{pedidoCodigo}")

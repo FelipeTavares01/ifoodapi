@@ -7,6 +7,10 @@ import com.ifoodapi.api.model.output.CozinhaOutput;
 import com.ifoodapi.domain.entity.Cozinha;
 import com.ifoodapi.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +32,14 @@ public class CozinhaController {
     private CozinhaModelAssembler cozinhaModelAssembler;
 
     @GetMapping
-    public ResponseEntity<List<CozinhaOutput>> findAll() {
-        List<CozinhaOutput> cozinhaOutputs = cozinhaModelAssembler.toCollectionModel(cozinhaService.findAll());
+    public ResponseEntity<Page<CozinhaOutput>> findAll(@PageableDefault(size = 5) Pageable pageable) {
+        Page<Cozinha> cozinhasPage = cozinhaService.findAll(pageable);
 
-        return ResponseEntity.ok(cozinhaOutputs);
+        List<CozinhaOutput> cozinhaOutputs = cozinhaModelAssembler.toCollectionModel(cozinhasPage.getContent());
+
+        Page<CozinhaOutput> cozinhaOutputPage = new PageImpl<CozinhaOutput>(cozinhaOutputs, pageable, cozinhasPage.getTotalElements());
+
+        return ResponseEntity.ok(cozinhaOutputPage);
     }
 
     @GetMapping("/{cozinhaId}")

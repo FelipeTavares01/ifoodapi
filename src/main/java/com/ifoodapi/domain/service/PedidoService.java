@@ -7,6 +7,8 @@ import com.ifoodapi.domain.repository.PedidoRepository;
 import com.ifoodapi.domain.repository.filter.PedidoFilter;
 import com.ifoodapi.infrastructure.repository.specs.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,8 +22,8 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
-    public List<Pedido> findAllByFilter(PedidoFilter pedidoFilter) {
-        return pedidoRepository.findAll(comFiltros(pedidoFilter));
+    public Page<Pedido> findAllByFilter(PedidoFilter pedidoFilter, Pageable pageable) {
+        return pedidoRepository.findAll(comFiltros(pedidoFilter), pageable);
     }
 
     public Pedido findByCodigo(String pedidoCodigo) {
