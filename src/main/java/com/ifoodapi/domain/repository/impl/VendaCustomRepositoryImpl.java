@@ -22,30 +22,34 @@ public class VendaCustomRepositoryImpl implements VendaCustomRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter) {
+    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter, String timeOffSet) {
 
         var builder = entityManager.getCriteriaBuilder();
         var query = builder.createQuery(VendaDiaria.class);
         var root = query.from(Pedido.class);
         var predicates = new ArrayList<Predicate>();
 
-        var dataCriacaoFormatada = builder.function("date", Date.class, root.get("dataCriacao"));
+        var functionConvertTzDataCriacao = builder.function(
+                "convert_tz", Date.class, root.get("dataCriacao"),
+                builder.literal("+00:00"), builder.literal(timeOffSet));
+
+        var functionDateDataCriacao = builder.function("date", Date.class, functionConvertTzDataCriacao);
 
         var selection = builder.construct(VendaDiaria.class,
-                dataCriacaoFormatada,
+                functionDateDataCriacao,
                 builder.count(root.get("id")),
                 builder.sum(root.get("valorTotal")));
 
 
-        if(Objects.nonNull(vendaDiariaFilter.getRestauranteId())) {
+        if (Objects.nonNull(vendaDiariaFilter.getRestauranteId())) {
             predicates.add(builder.equal(root.get("restaurante"), vendaDiariaFilter.getRestauranteId()));
         }
 
-        if(Objects.nonNull(vendaDiariaFilter.getDataCriacaoInicio())) {
+        if (Objects.nonNull(vendaDiariaFilter.getDataCriacaoInicio())) {
             predicates.add(builder.greaterThanOrEqualTo(root.get("dataCriacao"), vendaDiariaFilter.getDataCriacaoInicio()));
         }
 
-        if(Objects.nonNull(vendaDiariaFilter.getDataCriacaoFim())) {
+        if (Objects.nonNull(vendaDiariaFilter.getDataCriacaoFim())) {
             predicates.add(builder.lessThanOrEqualTo(root.get("dataCriacao"), vendaDiariaFilter.getDataCriacaoFim()));
         }
 
@@ -53,7 +57,7 @@ public class VendaCustomRepositoryImpl implements VendaCustomRepository {
 
         query.select(selection);
         query.where(predicates.toArray(new Predicate[0]));
-        query.groupBy(dataCriacaoFormatada);
+        query.groupBy(functionDateDataCriacao);
 
         return entityManager.createQuery(query).getResultList();
     }

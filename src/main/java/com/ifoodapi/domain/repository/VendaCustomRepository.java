@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface VendaCustomRepository {
 
-    List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter);
+    List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter, String timeOffSet);
 }
