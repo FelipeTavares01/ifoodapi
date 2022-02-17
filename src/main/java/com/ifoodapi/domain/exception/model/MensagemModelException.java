@@ -13,7 +13,7 @@ public enum MensagemModelException {
     ITEM_PEDIDO_NAO_ENCONTRADO("O item do pedido com id %d não foi encontrado."),
     PEDIDO_NAO_ENCONTRADO("O pedido com codigo %s não foi encontrado."),
     PERMISSAO_NAO_ENCONTRADA("A permissao com id %d não foi encontrada."),
-    PRODUTO_NAO_ENCONTRADO("O produto com id %d não foi encontrado."),
+    PRODUTO_NAO_ENCONTRADO("O produto com id %d para o restaurante com id %d não foi encontrado."),
     USUARIO_NAO_ENCONTRADO("O usuario com id %d não foi encontrado."),
     RESTAURANTE_NAO_ENCONTRADO("O restaurante com id %d não foi encontrado."),
 

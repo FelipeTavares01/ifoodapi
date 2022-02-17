@@ -1,7 +1,7 @@
 package com.ifoodapi.api.controller;
 
 import com.ifoodapi.domain.filter.VendaDiariaFilter;
-import com.ifoodapi.domain.model.VendaDiaria;
+import com.ifoodapi.domain.model.VendaDiariaModel;
 import com.ifoodapi.domain.repository.VendaCustomRepository;
 import com.ifoodapi.domain.service.VendaReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class EstatisticasController {
     private VendaReportService vendaReportService;
 
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<VendaDiaria>> consultarVendasDiarias(
+    public ResponseEntity<List<VendaDiariaModel>> consultarVendasDiarias(
             VendaDiariaFilter vendaDiariaFilter, @RequestParam(required = false, defaultValue = "+00:00") String timeOffSet) {
 
         return ResponseEntity.ok(vendaCustomRepository.consultarVendasDiarias(vendaDiariaFilter, timeOffSet));

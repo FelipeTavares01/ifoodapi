@@ -3,7 +3,7 @@ package com.ifoodapi.domain.repository.impl;
 import com.ifoodapi.domain.entity.Pedido;
 import com.ifoodapi.domain.entity.StatusPedido;
 import com.ifoodapi.domain.filter.VendaDiariaFilter;
-import com.ifoodapi.domain.model.VendaDiaria;
+import com.ifoodapi.domain.model.VendaDiariaModel;
 import com.ifoodapi.domain.repository.VendaCustomRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,10 +22,10 @@ public class VendaCustomRepositoryImpl implements VendaCustomRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter, String timeOffSet) {
+    public List<VendaDiariaModel> consultarVendasDiarias(VendaDiariaFilter vendaDiariaFilter, String timeOffSet) {
 
         var builder = entityManager.getCriteriaBuilder();
-        var query = builder.createQuery(VendaDiaria.class);
+        var query = builder.createQuery(VendaDiariaModel.class);
         var root = query.from(Pedido.class);
         var predicates = new ArrayList<Predicate>();
 
@@ -35,7 +35,7 @@ public class VendaCustomRepositoryImpl implements VendaCustomRepository {
 
         var functionDateDataCriacao = builder.function("date", Date.class, functionConvertTzDataCriacao);
 
-        var selection = builder.construct(VendaDiaria.class,
+        var selection = builder.construct(VendaDiariaModel.class,
                 functionDateDataCriacao,
                 builder.count(root.get("id")),
                 builder.sum(root.get("valorTotal")));

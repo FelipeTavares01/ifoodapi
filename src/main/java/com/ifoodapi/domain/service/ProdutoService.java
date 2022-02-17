@@ -7,6 +7,7 @@ import com.ifoodapi.domain.exception.model.MensagemModelException;
 import com.ifoodapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ProdutoService {
     public Produto findById(Long restauranteId, Long produtoId) {
         return produtoRepository.findById(restauranteId, produtoId)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                        String.format(MensagemModelException.PRODUTO_NAO_ENCONTRADO.getMensagem(), produtoId)));
+                        String.format(MensagemModelException.PRODUTO_NAO_ENCONTRADO.getMensagem(), produtoId, restauranteId)));
     }
 
     public List<Produto> findAtivosByRestaurante(Restaurante restaurante) {
@@ -33,6 +34,7 @@ public class ProdutoService {
         return produtoRepository.findAllByRestaurante(restaurante);
     }
 
+    @Transactional
     public Produto save(Produto produto) {
         return produtoRepository.save(produto);
     }

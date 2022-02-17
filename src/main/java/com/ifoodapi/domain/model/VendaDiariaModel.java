@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Setter
 @Getter
-public class VendaDiaria {
+public class VendaDiariaModel {
 
     private Date data;
     private Long totalVendas;

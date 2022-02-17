@@ -1,5 +1,6 @@
 package com.ifoodapi.domain.repository;
 
+import com.ifoodapi.domain.entity.FotoProduto;
 import com.ifoodapi.domain.entity.Produto;
 import com.ifoodapi.domain.entity.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+public interface ProdutoRepository extends JpaRepository<Produto, Long>, ProdutoCustomRepository {
 
 
     @Query("from Produto where restaurante.id = :restaurante and id = :produto" )
@@ -21,5 +22,9 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query("from Produto p where p.ativo = true and p.restaurante = :restaurante")
     List<Produto> findAtivosByRestaurante(Restaurante restaurante);
+
+    @Query("select fp from FotoProduto fp join fp.produto p " +
+            "where p.restaurante.id = :restauranteId and fp.produto.id = :produtoId")
+    Optional<FotoProduto> findFotoById(Long restauranteId, Long produtoId);
 
 }
