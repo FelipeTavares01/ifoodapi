@@ -1,6 +1,8 @@
 package com.ifoodapi.domain.service;
 
 import com.ifoodapi.domain.entity.FotoProduto;
+import com.ifoodapi.domain.exception.EntidadeNaoEncontradaException;
+import com.ifoodapi.domain.exception.model.MensagemModelException;
 import com.ifoodapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,16 @@ public class CatalogoFotoProdutoService {
 
     @Autowired
     private FotoStorageService fotoStorageService;
+
+    public FotoProduto findById(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format(MensagemModelException.FOTO_PRODUTO_NAO_ENCONTRADA.getMensagem(), restauranteId, produtoId)));
+    }
+
+    public InputStream getFotoProduto(String nomeArquivo) {
+        return fotoStorageService.recuperar(nomeArquivo);
+    }
 
     @Transactional
     public FotoProduto save(FotoProduto fotoProduto, InputStream dadosFoto) {

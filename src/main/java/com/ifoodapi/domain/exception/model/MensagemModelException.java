@@ -8,6 +8,7 @@ public enum MensagemModelException {
     CIDADE_NAO_ENCONTRADA("A cidade com id %d não foi encontrada."),
     ESTADO_NAO_ENCONTRADO("O estado com id %d não foi encontrado."),
     COZINHA_NAO_ENCONTRADA("A cozinha com id %d não foi encontrada."),
+    FOTO_PRODUTO_NAO_ENCONTRADA("A foto para o restauranteId %d e para o produtoId %d não foi encontrada."),
     FORMA_PAGAMENTO_NAO_ENCONTRADA("A forma de pagamento com id %d não foi encontrada."),
     GRUPO_NAO_ENCONTRADO("O grupo com id %d não foi encontrado."),
     ITEM_PEDIDO_NAO_ENCONTRADO("O item do pedido com id %d não foi encontrado."),

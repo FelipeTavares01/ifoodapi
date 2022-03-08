@@ -10,8 +10,8 @@ import java.util.UUID;
 public interface FotoStorageService {
 
     void armanezar(NovaFoto novaFoto);
-
     void excluir(String nomeArquivo);
+    InputStream recuperar(String nomeArquivo);
 
     default  void substituir(String nomeFotoAntiga, NovaFoto novaFoto) {
 
