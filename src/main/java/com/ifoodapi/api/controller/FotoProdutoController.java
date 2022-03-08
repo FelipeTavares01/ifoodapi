@@ -41,13 +41,13 @@ public class FotoProdutoController {
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FotoProdutoOutput> updateFoto(@PathVariable Long restauranteId,
                                                         @PathVariable Long produtoId,
-                                                        @Valid FotoProdutoInput fotoProdutoInput) {
+                                                        @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 
         Produto produto = produtoService.findById(restauranteId, produtoId);
 
         FotoProduto fotoProduto = produtoEntityAssembler.toEntity(fotoProdutoInput, produto);
 
-        fotoProduto = catalogoFotoProdutoService.save(fotoProduto);
+        fotoProduto = catalogoFotoProdutoService.save(fotoProduto, fotoProdutoInput.getArquivo().getInputStream());
 
         return ResponseEntity.ok(fotoProdutoModelAssembler.toModel(fotoProduto));
 
