@@ -1,8 +1,10 @@
 package com.ifoodapi.infrastructure.service;
 
+import com.ifoodapi.core.storage.StorageProperties;
 import com.ifoodapi.domain.service.FotoStorageService;
 import com.ifoodapi.infrastructure.service.exception.StorageException;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -15,8 +17,8 @@ import java.nio.file.Path;
 @Service
 public class LocalFotoStorageService implements FotoStorageService {
 
-    @Value("${ifood.storage.local.diretorio-fotos}")
-    private Path diretorioFotos;
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public void armanezar(NovaFoto novaFoto) {
@@ -35,7 +37,6 @@ public class LocalFotoStorageService implements FotoStorageService {
     public void excluir(String nomeArquivo) {
         try {
             var arquivoPath = getArquivoPath(nomeArquivo);
-
             Files.deleteIfExists(arquivoPath);
         } catch (Exception e ) {
             throw new StorageException("Não foi possivel deletar o arquivo", e);
@@ -53,6 +54,6 @@ public class LocalFotoStorageService implements FotoStorageService {
     }
 
     private Path getArquivoPath(String nomeArquivo) {
-        return diretorioFotos.resolve(Path.of(nomeArquivo));
+        return storageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo)    );
     }
 }

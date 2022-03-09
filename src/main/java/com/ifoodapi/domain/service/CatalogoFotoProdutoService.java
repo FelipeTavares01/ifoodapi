@@ -59,4 +59,14 @@ public class CatalogoFotoProdutoService {
 
         return fotoSalva;
     }
+
+    @Transactional
+    public void delete(Long restauranteId, Long produtoId) {
+        FotoProduto fotoProduto = this.findById(restauranteId, produtoId);
+
+        produtoRepository.delete(fotoProduto);
+        produtoRepository.flush();
+
+        fotoStorageService.excluir(fotoProduto.getNomeArquivo());
+    }
 }
