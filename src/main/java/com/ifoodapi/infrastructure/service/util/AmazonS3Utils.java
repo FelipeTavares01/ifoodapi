@@ -1,4 +1,4 @@
-package com.ifoodapi.infrastructure.util;
+package com.ifoodapi.infrastructure.service.util;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -32,10 +32,6 @@ public class AmazonS3Utils {
         return putObjectRequest;
     }
 
-    public String getCaminhoArquivo(String diretorioFotos, String nomeArquivo) {
-        return String.format("%s/%s", diretorioFotos, nomeArquivo);
-    }
-
     public DeleteObjectRequest getDeleteObjectRequest(String nomeArquivo) {
 
         var caminhoArquivo = getCaminhoArquivo(storageProperties.getS3().getDiretorioFotos(),
@@ -46,5 +42,11 @@ public class AmazonS3Utils {
                 caminhoArquivo);
 
         return deleteObjectRequest;
+    }
+
+
+
+    public String getCaminhoArquivo(String diretorioFotos, String nomeArquivo) {
+        return String.format("%s/%s", diretorioFotos, nomeArquivo);
     }
 }

@@ -1,15 +1,12 @@
 package com.ifoodapi.infrastructure.service.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.ifoodapi.core.storage.StorageProperties;
 import com.ifoodapi.domain.service.FotoStorageService;
 import com.ifoodapi.infrastructure.service.exception.StorageException;
-import com.ifoodapi.infrastructure.util.AmazonS3Utils;
+import com.ifoodapi.infrastructure.service.util.AmazonS3Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-
-@Service
 public class S3FotoStorageService implements FotoStorageService {
 
     @Autowired
@@ -18,8 +15,11 @@ public class S3FotoStorageService implements FotoStorageService {
     @Autowired
     private AmazonS3Utils amazonS3Utils;
 
+    @Autowired
+    private StorageProperties storageProperties;
+
     @Override
-    public void armanezar(NovaFoto novaFoto) {
+    public void armazenar(NovaFoto novaFoto) {
 
         try {
             var putObjectRequest = amazonS3Utils.getPutObjectRequest(novaFoto);
@@ -42,8 +42,22 @@ public class S3FotoStorageService implements FotoStorageService {
     }
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
-        return null;
+    public FotoRecuperada recuperar(String nomeArquivo) {
+        try {
+            var caminhoArquivo = amazonS3Utils.getCaminhoArquivo(storageProperties.getS3().getDiretorioFotos(),
+                    nomeArquivo);
+
+            var url = amazonS3.getUrl(storageProperties.getS3().getBucket(), caminhoArquivo);
+
+            var fotoRecuperada = FotoRecuperada.builder()
+                    .url(url)
+                    .build();
+
+            return fotoRecuperada;
+
+        } catch (Exception e) {
+            throw new StorageException("Não foi possivel recuperar a foto na Amazon S3");
+        }
     }
 
 

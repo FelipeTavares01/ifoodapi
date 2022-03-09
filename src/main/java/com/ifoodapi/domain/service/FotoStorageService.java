@@ -4,18 +4,19 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Objects;
 import java.util.UUID;
 
 public interface FotoStorageService {
 
-    void armanezar(NovaFoto novaFoto);
+    void armazenar(NovaFoto novaFoto);
     void excluir(String nomeArquivo);
-    InputStream recuperar(String nomeArquivo);
+    FotoRecuperada recuperar(String nomeArquivo);
 
     default  void substituir(String nomeFotoAntiga, NovaFoto novaFoto) {
 
-        this.armanezar(novaFoto);
+        this.armazenar(novaFoto);
 
         if(Objects.nonNull(nomeFotoAntiga)) {
             this.excluir(nomeFotoAntiga);
@@ -33,5 +34,20 @@ public interface FotoStorageService {
         private InputStream inputStream;
         private String contentType;
         private Long tamanhoArquivo;
+    }
+
+    @Builder
+    @Getter
+    public class FotoRecuperada {
+        private URL url;
+        private InputStream inputStream;
+
+        public boolean temUrl() {
+            return this.url != null;
+        }
+
+        public boolean temInputStream() {
+            return this.inputStream != null;
+        }
     }
 }

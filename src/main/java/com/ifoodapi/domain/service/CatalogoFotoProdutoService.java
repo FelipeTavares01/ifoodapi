@@ -26,7 +26,7 @@ public class CatalogoFotoProdutoService {
                         String.format(MensagemModelException.FOTO_PRODUTO_NAO_ENCONTRADA.getMensagem(), restauranteId, produtoId)));
     }
 
-    public InputStream getFotoProduto(String nomeArquivo) {
+    public FotoStorageService.FotoRecuperada getFotoProduto(String nomeArquivo) {
         return fotoStorageService.recuperar(nomeArquivo);
     }
 

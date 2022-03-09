@@ -1,13 +1,11 @@
 package com.ifoodapi.core.validation.validator;
 
 import com.ifoodapi.core.validation.annotations.FileSize;
-import com.ifoodapi.core.validation.annotations.Multiplo;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class FileSizeValidator implements ConstraintValidator<FileSize, MultipartFile> {
