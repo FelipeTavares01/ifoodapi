@@ -1,4 +1,4 @@
-package com.ifoodapi.infrastructure.service;
+package com.ifoodapi.infrastructure.service.relatorio;
 
 import com.ifoodapi.domain.filter.VendaDiariaFilter;
 import com.ifoodapi.domain.repository.VendaCustomRepository;

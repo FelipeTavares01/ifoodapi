@@ -1,4 +1,4 @@
-package com.ifoodapi.infrastructure.service;
+package com.ifoodapi.infrastructure.service.storage;
 
 import com.ifoodapi.core.storage.StorageProperties;
 import com.ifoodapi.domain.service.FotoStorageService;
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
+//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 
     @Autowired

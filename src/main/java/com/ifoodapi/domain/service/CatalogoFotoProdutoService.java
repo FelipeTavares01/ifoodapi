@@ -53,6 +53,8 @@ public class CatalogoFotoProdutoService {
         FotoStorageService.NovaFoto novaFoto = FotoStorageService.NovaFoto.builder()
                 .nomeArquivo(fotoProduto.getNomeArquivo())
                 .inputStream(dadosFoto)
+                .contentType(fotoProduto.getContentType())
+                .tamanhoArquivo(fotoProduto.getTamanho())
                 .build();
 
         fotoStorageService.substituir(nomeFotoAntiga, novaFoto);
