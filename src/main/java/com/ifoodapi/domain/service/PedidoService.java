@@ -19,6 +19,9 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private EnvioEmailService envioEmailService;
+
     public Page<Pedido> findAllByFilter(PedidoFilter pedidoFilter, Pageable pageable) {
         return pedidoRepository.findAll(comFiltros(pedidoFilter), pageable);
     }
@@ -33,6 +36,15 @@ public class PedidoService {
     public void confirm(String pedidoCodigo) {
         Pedido pedido = this.findByCodigo(pedidoCodigo);
         pedido.confirmar();
+
+        var mensagem = EnvioEmailService.Mensagem.builder()
+                .assunto(pedido.getRestaurante().getNome() + " - Pedido confirmado!")
+                .destinatario(pedido.getCliente().getEmail())
+                .variavel("pedido", pedido)
+                .corpo("pedido-confirmado.html")
+                .build();
+
+        envioEmailService.enviar(mensagem);
     }
 
     @Transactional

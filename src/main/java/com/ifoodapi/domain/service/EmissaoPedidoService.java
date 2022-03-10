@@ -44,7 +44,7 @@ public class EmissaoPedidoService {
             Restaurante restaurante = restauranteService.findById(pedido.getRestaurante().getId());
             Cidade cidade = cidadeService.findById(pedido.getEnderecoEntrega().getCidade().getId());
             FormaPagamento formaPagamento = formaPagamentoService.findById(pedido.getFormaPagamento().getId());
-            Usuario cliente = usuarioService.findById(7L);
+            Usuario cliente = usuarioService.findById(10L);
             validaRestauranteAceitaFormaPagamento(restaurante, formaPagamento);
             validaItens(pedido);
 
