@@ -16,9 +16,9 @@ insert ignore into cidade (id, nome, estado_id) values (5, 'Fortaleza', 3);
 update restaurante set ativo = true where id in (1,2,3,4,5,6);
 update restaurante set  endereco_cidade_id = 1,  endereco_cep = '04205-000', endereco_logradouro = 'Rua Bom Pastor', endereco_numero = 955, endereco_complemento = 'apto 14', endereco_bairro = 'Ipiranga' where id in (1,2,3,4,5,6);
 
-insert ignore into forma_pagamento (id, descricao) values (1, 'Cartão de crédito');
-insert ignore into forma_pagamento (id, descricao) values (2, 'Cartão de débito');
-insert ignore into forma_pagamento (id, descricao) values (3, 'Dinheiro');
+insert ignore into forma_pagamento (id, descricao, data_atualizacao) values (1, 'Cartão de crédito', utc_timestamp);
+insert ignore into forma_pagamento (id, descricao, data_atualizacao) values (2, 'Cartão de débito', utc_timestamp);
+insert ignore into forma_pagamento (id, descricao, data_atualizacao) values (3, 'Dinheiro', utc_timestamp);
 
 insert ignore into permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 insert ignore into permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
